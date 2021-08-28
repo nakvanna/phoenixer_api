@@ -2,20 +2,66 @@ defmodule PhoenixerApiWeb.Schema.Resolvers.User do
   use Absinthe.Schema.Notation
   alias PhoenixerApi.Accounts
 
-  def list_users(_, _, _) do
-    {:ok, Accounts.list_users()}
-  end
+  object :user_queries do
+    field :users, list_of(:user) do
+      resolve(
+        fn _args, _ -> {:ok, Accounts.list_users} end
+      )
+    end
 
-  def get_user(_, %{id: id}, _) do
-    IO.inspect id
-    user = Accounts.get_user(id)
-    case user do
-      nil -> {:error, "User ID #{id} not found!"}
-      user -> {:ok, user}
+    field :find_user, :user do
+      arg :id, :id
+      resolve(
+        fn args, _ ->
+          case Accounts.get_user(args.id) do
+            nil -> {:error, "User ID #{args.id} not found!"}
+            user -> {:ok, user}
+          end
+        end
+      )
     end
   end
 
-  def create_user(_, args, _) do
-    Accounts.create_user(args)
+  object :user_mutations do
+    field :create_user, :user do
+      arg :data, non_null(:create_user_input_type)
+      resolve(
+        fn args, _ ->
+          Accounts.create_user(args.data)
+        end
+      )
+    end
+
+    field :update_user, :user do
+      arg :id, :id
+      arg :data, :update_user_input_type
+
+      resolve(
+        fn args, _ ->
+          user = Accounts.get_user(args.id)
+          if user == nil do
+            {:error, %{success: false, message: "No result found to update!"}}
+          else
+            Accounts.update_user(user, args.data)
+          end
+        end
+      )
+    end
+
+    field :delete_user, :user do
+      arg :id, :id
+
+      resolve(
+        fn args, _ ->
+          user = Accounts.get_user(args.id)
+          if user == nil do
+            {:error, %{success: false, message: "No result found to delete!"}}
+          else
+            Accounts.delete_user(user)
+          end
+        end
+      )
+    end
   end
+
 end
