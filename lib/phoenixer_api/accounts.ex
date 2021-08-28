@@ -35,7 +35,7 @@ defmodule PhoenixerApi.Accounts do
       ** (Ecto.NoResultsError)
 
   """
-  def get_user!(id), do: Repo.get!(User, id)
+  def get_user(id), do: Repo.get(User, id)
 
   @doc """
   Creates a user.
@@ -53,6 +53,13 @@ defmodule PhoenixerApi.Accounts do
     %User{}
     |> User.changeset(attrs)
     |> Repo.insert()
+    |> case  do
+         {:error, error} ->
+           ##Catch error and get message from unique_constraint
+           {_, {message, _}} = List.first(error.errors)
+           {:error, message}
+         {:ok, user} -> {:ok, user}
+       end
   end
 
   @doc """

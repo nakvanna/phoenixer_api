@@ -19,6 +19,12 @@ defmodule PhoenixerApiWeb.Router do
     get "/", PageController, :index
   end
 
+  scope "/" do
+    pipe_through :api
+
+    forward "/graphql", Absinthe.Plug.GraphiQL, schema: PhoenixerApiWeb.Schema
+  end
+
   # Other scopes may use custom stacks.
   # scope "/api", PhoenixerApiWeb do
   #   pipe_through :api

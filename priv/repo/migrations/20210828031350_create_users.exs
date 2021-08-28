@@ -3,8 +3,8 @@ defmodule PhoenixerApi.Repo.Migrations.CreateUsers do
 
   def change do
     create table(:users) do
-      add :first_name, :string
-      add :last_name, :string
+      add :name, :string
+      add :username, :string
       add :email, :string
       add :hash_password, :string
       add :role, :string
@@ -12,6 +12,9 @@ defmodule PhoenixerApi.Repo.Migrations.CreateUsers do
 
       timestamps()
     end
+
+    create unique_index(:users, [:email])
+    create unique_index(:users, [:username])
 
   end
 end

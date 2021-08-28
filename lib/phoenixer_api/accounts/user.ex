@@ -4,10 +4,10 @@ defmodule PhoenixerApi.Accounts.User do
 
   schema "users" do
     field :email, :string
-    field :first_name, :string
+    field :name, :string
     field :hash_password, :string
-    field :last_name, :string
-    field :role, :string
+    field :username, :string
+    field :role, :string, default: "user"
     field :verify, :boolean, default: false
 
     timestamps()
@@ -16,7 +16,9 @@ defmodule PhoenixerApi.Accounts.User do
   @doc false
   def changeset(user, attrs) do
     user
-    |> cast(attrs, [:first_name, :last_name, :email, :hash_password, :role, :verify])
-    |> validate_required([:first_name, :last_name, :email, :hash_password, :role, :verify])
+    |> cast(attrs, [:name, :username, :email, :hash_password, :role, :verify])
+    |> validate_required([:name, :username, :email, :hash_password, :role, :verify])
+    |> unique_constraint(:username, message: "Username already taken!")
+    |> unique_constraint(:email, message: "Email already taken!")
   end
 end
