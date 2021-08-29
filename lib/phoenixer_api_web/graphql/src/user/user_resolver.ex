@@ -35,7 +35,6 @@ defmodule PhoenixerApiWeb.Schema.Resolvers.User do
     field :update_user, :user do
       arg :id, :id
       arg :data, :update_user_input_type
-
       resolve(
         fn args, _ ->
           user = Accounts.get_user(args.id)
@@ -50,7 +49,6 @@ defmodule PhoenixerApiWeb.Schema.Resolvers.User do
 
     field :delete_user, :user do
       arg :id, :id
-
       resolve(
         fn args, _ ->
           user = Accounts.get_user(args.id)

@@ -6,7 +6,7 @@ defmodule PhoenixerApi.Repo.Migrations.CreateUsers do
       add :name, :string
       add :username, :string
       add :email, :string
-      add :hash_password, :string
+      add :password_hash, :string
       add :role, :string
       add :verify, :boolean, default: false, null: false
 

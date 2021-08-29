@@ -52,13 +52,13 @@ defmodule PhoenixerApi.Accounts do
   def create_user(attrs \\ %{}) do
     %User{}
     |> User.changeset(attrs)
-    |> Repo.insert()
+    |> Repo.insert
     |> case  do
          {:error, error} ->
            ##Catch error and get message from unique_constraint
            {_, {message, _}} = List.first(error.errors)
            {:error, message}
-         {:ok, user} -> {:ok, user}
+         {:ok, user} -> {:ok, Map.merge(user, %{success: true, message: "បង្កើតបានជោគជ័យ!"})}
        end
   end
 
@@ -107,5 +107,25 @@ defmodule PhoenixerApi.Accounts do
   """
   def change_user(%User{} = user, attrs \\ %{}) do
     User.changeset(user, attrs)
+  end
+
+  def login_user(args) do
+    user = User
+           |> where(username: ^String.downcase(args.email_or_username))
+           |> or_where(email: ^String.downcase(args.email_or_username))
+           |> Repo.one
+    case check_password(user, args.password) do
+      true -> {:ok, Map.merge(user, %{success: true, message: "ដំណើរការបានជោគជ័យ!"})}
+      _ -> {:error, %{message: "Incorrect authentication!"}}
+
+    end
+
+  end
+
+  defp check_password(user, password) do
+    case user do
+      nil -> false
+      _ -> Bcrypt.verify_pass(password, user.password_hash)
+    end
   end
 end

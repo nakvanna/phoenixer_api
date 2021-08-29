@@ -6,9 +6,10 @@ defmodule PhoenixerApiWeb.Schema.Types.User do
     field :name, :string
     field :username, :string
     field :email, :string
-    field :hash_password, :string
     field :role, :string
     field :verify, :boolean
+    field :success, :boolean
+    field :message, :string
   end
 
 end

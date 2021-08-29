@@ -48,7 +48,8 @@ defmodule PhoenixerApi.MixProject do
       {:plug_cowboy, "~> 2.0"},
       ##Add more
       {:absinthe, "~> 1.6"},
-      {:absinthe_plug, "~> 1.5"}
+      {:absinthe_plug, "~> 1.5"},
+      {:bcrypt_elixir, "~> 2.3"}
     ]
   end
 
