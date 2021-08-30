@@ -115,7 +115,7 @@ defmodule PhoenixerApi.Accounts do
            |> or_where(email: ^String.downcase(args.email_or_username))
            |> Repo.one
     case check_password(user, args.password) do
-      true -> {:ok, Map.merge(user, %{success: true, message: "ដំណើរការបានជោគជ័យ!"})}
+      true -> {:ok, user}
       _ -> {:error, %{message: "Incorrect authentication!"}}
 
     end

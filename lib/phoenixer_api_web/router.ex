@@ -11,6 +11,7 @@ defmodule PhoenixerApiWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug PhoenixerApiWeb.Plug.Context
   end
 
   scope "/", PhoenixerApiWeb do
