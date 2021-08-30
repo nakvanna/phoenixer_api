@@ -4,6 +4,7 @@ defmodule PhoenixerApiWeb.Schema.Resolvers.User do
 
   object :user_queries do
     field :users, list_of(:user) do
+      middleware PhoenixerApiWeb.Graphql.Middleware, "user"
       resolve(
         fn _args, _ -> {:ok, Accounts.list_users} end
       )
@@ -11,6 +12,7 @@ defmodule PhoenixerApiWeb.Schema.Resolvers.User do
 
     field :find_user, :user do
       arg :id, :id
+      middleware PhoenixerApiWeb.Graphql.Middleware, "user"
       resolve(
         fn args, _ ->
           case Accounts.get_user(args.id) do
@@ -35,6 +37,7 @@ defmodule PhoenixerApiWeb.Schema.Resolvers.User do
     field :update_user, :user do
       arg :id, :id
       arg :data, :update_user_input_type
+      middleware PhoenixerApiWeb.Graphql.Middleware, "user"
       resolve(
         fn args, _ ->
           user = Accounts.get_user(args.id)
@@ -49,6 +52,7 @@ defmodule PhoenixerApiWeb.Schema.Resolvers.User do
 
     field :delete_user, :user do
       arg :id, :id
+      middleware PhoenixerApiWeb.Graphql.Middleware, "user"
       resolve(
         fn args, _ ->
           user = Accounts.get_user(args.id)

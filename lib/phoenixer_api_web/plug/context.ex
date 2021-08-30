@@ -1,8 +1,6 @@
 defmodule PhoenixerApiWeb.Plug.Context do
   @behaviour Plug
   import Plug.Conn
-  import Ecto.Query, only: [where: 2]
-  alias PhoenixerApi.{Repo, Accounts.User}
 
   def init(opts), do: opts
 
@@ -16,20 +14,12 @@ defmodule PhoenixerApiWeb.Plug.Context do
   """
   def build_context(conn) do
     with ["Bearer " <> token] <- get_req_header(conn, "authorization"),
-         {:ok, current_user} <- authorize(token) do
-      %{current_user: current_user}
+         {:ok, claims} <- PhoenixerApi.Guardian.decode_and_verify(token),
+         {:ok, user} <- PhoenixerApi.Guardian.resource_from_claims(claims) do
+      %{current_user: user}
     else
       _ -> %{}
     end
   end
 
-  defp authorize(token) do
-    User
-    |> where(token: ^token)
-    |> Repo.one
-    |> case do
-         nil -> {:error, "Invalid authorization token"}
-         user -> {:ok, user}
-       end
-  end
 end
