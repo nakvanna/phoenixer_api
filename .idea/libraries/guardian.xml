@@ -7,7 +7,6 @@
     <JAVADOC />
     <SOURCES>
       <root url="file://$PROJECT_DIR$/deps/guardian/lib" />
-      <root url="file://$PROJECT_DIR$/deps/guardian/lib" />
     </SOURCES>
   </library>
 </component>

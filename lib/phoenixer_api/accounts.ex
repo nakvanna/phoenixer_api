@@ -2,6 +2,15 @@ defmodule PhoenixerApi.Accounts do
   @moduledoc """
   The Accounts context.
   """
+  alias PhoenixerApi.Helpers.QueryUtil
+
+  def data() do
+    Dataloader.Ecto.new(PhoenixerApi.Repo, query: &query/2)
+  end
+
+  def query(queryable, _params) do
+    queryable
+  end
 
   import Ecto.Query, warn: false
   alias PhoenixerApi.Repo
@@ -17,8 +26,10 @@ defmodule PhoenixerApi.Accounts do
       [%User{}, ...]
 
   """
-  def list_users do
-    Repo.all(User)
+  def list_users(args) do
+    User
+    |> where(^QueryUtil.list_record(args))
+    |> Repo.all()
   end
 
   @doc """

@@ -9,9 +9,6 @@
       <root url="file://$PROJECT_DIR$/deps/jose/lib" />
       <root url="file://$PROJECT_DIR$/deps/jose/src" />
       <root url="file://$PROJECT_DIR$/deps/jose/priv" />
-      <root url="file://$PROJECT_DIR$/deps/jose/lib" />
-      <root url="file://$PROJECT_DIR$/deps/jose/src" />
-      <root url="file://$PROJECT_DIR$/deps/jose/priv" />
     </SOURCES>
   </library>
 </component>

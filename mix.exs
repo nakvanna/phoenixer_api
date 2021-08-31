@@ -50,7 +50,8 @@ defmodule PhoenixerApi.MixProject do
       {:absinthe, "~> 1.6"},
       {:absinthe_plug, "~> 1.5"},
       {:bcrypt_elixir, "~> 2.3"},
-      {:guardian, "~> 2.2"}
+      {:guardian, "~> 2.2"},
+      {:dataloader, "~> 1.0.0"}
     ]
   end
 

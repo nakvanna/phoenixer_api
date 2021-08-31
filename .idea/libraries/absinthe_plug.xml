@@ -7,7 +7,6 @@
     <JAVADOC />
     <SOURCES>
       <root url="file://$PROJECT_DIR$/deps/absinthe_plug/lib" />
-      <root url="file://$PROJECT_DIR$/deps/absinthe_plug/lib" />
     </SOURCES>
   </library>
 </component>
