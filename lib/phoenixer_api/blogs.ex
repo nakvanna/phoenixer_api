@@ -5,6 +5,7 @@ defmodule PhoenixerApi.Blogs do
 
   import Ecto.Query, warn: false
   alias PhoenixerApi.Repo
+  alias PhoenixerApi.Helpers.QueryUtil
 
   alias PhoenixerApi.Blogs.Post
 
@@ -17,8 +18,12 @@ defmodule PhoenixerApi.Blogs do
       [%Post{}, ...]
 
   """
-  def list_posts do
-    Repo.all(Post)
+  def list_posts(args) do
+    Post
+    |> join(:inner, [p], _ in assoc(p, :user), as: :u)
+    |> where(^QueryUtil.query_where(args))
+    |> where(^QueryUtil.query_where(args.user_arg, :u))
+    |> Repo.all()
   end
 
   @doc """

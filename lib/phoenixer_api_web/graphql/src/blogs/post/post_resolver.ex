@@ -4,9 +4,12 @@ defmodule PhoenixerApiWeb.Schema.Resolvers.Post do
 
   object :post_queries do
     field :posts, list_of(:post) do
+      arg :condition, non_null(:json)
+      arg :user_arg, non_null(:arg_condition)
+
       middleware PhoenixerApiWeb.Graphql.Middleware, "user"
       resolve(
-        fn _args, _ -> {:ok, Blogs.list_posts} end
+        fn args, _ -> {:ok, Blogs.list_posts(args)} end
       )
     end
 

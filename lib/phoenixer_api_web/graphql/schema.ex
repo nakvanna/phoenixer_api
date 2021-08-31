@@ -14,11 +14,11 @@ defmodule PhoenixerApiWeb.Schema do
     [Absinthe.Middleware.Dataloader] ++ Absinthe.Plugin.defaults()
   end
 
-
   ##Custom Scalar type
   import_types(
     PhoenixerApiWeb.Schema.Types.Custom.{JSON}
   )
+
   ##Query types
   import_types(
     PhoenixerApiWeb.Schema.Types.{
@@ -45,6 +45,11 @@ defmodule PhoenixerApiWeb.Schema do
       Post
       }
   )
+
+  # root query
+  input_object :arg_condition do
+    field :condition, :json
+  end
 
   query do
     import_fields :user_queries

@@ -28,7 +28,7 @@ defmodule PhoenixerApi.Accounts do
   """
   def list_users(args) do
     User
-    |> where(^QueryUtil.list_record(args))
+    |> where(^QueryUtil.query_where(args))
     |> Repo.all()
   end
 
