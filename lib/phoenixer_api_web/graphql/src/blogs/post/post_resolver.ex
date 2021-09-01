@@ -2,6 +2,10 @@ defmodule PhoenixerApiWeb.Schema.Resolvers.Post do
   use Absinthe.Schema.Notation
   alias PhoenixerApi.Blogs
 
+  #  use Absinthe.Relay.Schema, :classic
+
+
+
   object :post_queries do
     field :posts, list_of(:post) do
       arg :condition, non_null(:json)

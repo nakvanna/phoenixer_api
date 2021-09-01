@@ -1,16 +1,36 @@
 defmodule PhoenixerApiWeb.Schema.Resolvers.User do
   use Absinthe.Schema.Notation
+  use Absinthe.Relay.Schema.Notation, :modern
   alias PhoenixerApi.Accounts
 
-  object :user_queries do
-    field :users, list_of(:user) do
-      arg :condition, non_null(:json)
+  # connection for relay
+  connection node_type: :user do
+    field :count, :integer
+    # must include edge
+    edge do
+    end
+  end
 
+  object :user_queries do
+    connection field :users, node_type: :user do
+      arg :condition, non_null(:json)
       middleware PhoenixerApiWeb.Graphql.Middleware, "user"
       resolve(
-        fn args, _ -> {:ok, Accounts.list_users(args)} end
+        fn args, _
+        ->
+          Accounts.list_users(args)
+        end
       )
     end
+
+    #    field :users, list_of(:user) do
+    #      arg :condition, non_null(:json)
+    #
+    #      middleware PhoenixerApiWeb.Graphql.Middleware, "user"
+    #      resolve(
+    #        fn args, _ -> {:ok, Accounts.list_users(args)} end
+    #      )
+    #    end
 
     field :find_user, :user do
       arg :id, :id

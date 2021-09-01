@@ -2,7 +2,11 @@ defmodule PhoenixerApi.Accounts do
   @moduledoc """
   The Accounts context.
   """
+  import Ecto.Query, warn: false
   alias PhoenixerApi.Helpers.QueryUtil
+  alias PhoenixerApi.Repo
+
+  alias PhoenixerApi.Accounts.User
 
   def data() do
     Dataloader.Ecto.new(PhoenixerApi.Repo, query: &query/2)
@@ -11,12 +15,6 @@ defmodule PhoenixerApi.Accounts do
   def query(queryable, _params) do
     queryable
   end
-
-  import Ecto.Query, warn: false
-  alias PhoenixerApi.Repo
-
-  alias PhoenixerApi.Accounts.User
-
   @doc """
   Returns the list of users.
 
@@ -27,9 +25,13 @@ defmodule PhoenixerApi.Accounts do
 
   """
   def list_users(args) do
-    User
-    |> where(^QueryUtil.query_where(args))
-    |> Repo.all()
+    count = User
+            |> Repo.aggregate(:count, :id)
+    result = User
+             |> where(^QueryUtil.query_where(args))
+             |> Absinthe.Relay.Connection.from_query(&Repo.all/1, args)
+    {:ok, edges} = result
+    {:ok, Map.put(edges, :count, count)}
   end
 
   @doc """

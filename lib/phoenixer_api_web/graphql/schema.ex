@@ -1,5 +1,6 @@
 defmodule PhoenixerApiWeb.Schema do
   use Absinthe.Schema
+  use Absinthe.Relay.Schema, :modern
   alias PhoenixerApi.Accounts
 
   def context(ctx) do
