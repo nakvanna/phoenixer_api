@@ -13,13 +13,4 @@ defmodule PhoenixerApiWeb.Graphql.Middleware do
   defp correct_role?(%{}, :any), do: true
   defp correct_role?(%{role: role}, role), do: true
   defp correct_role?(_, _), do: false
-  #  def call(resolution, role) do
-  #    case resolution.context do
-  #      %{current_user: _} -> resolution
-  #
-  #      _ ->
-  #        resolution
-  #        |> Absinthe.Resolution.put_result({:error, "unauthenticated"})
-  #    end
-  #  end
 end

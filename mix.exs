@@ -52,7 +52,8 @@ defmodule PhoenixerApi.MixProject do
       {:bcrypt_elixir, "~> 2.3"},
       {:guardian, "~> 2.2"},
       {:dataloader, "~> 1.0.0"},
-      {:absinthe_relay, "~> 1.5"}
+      {:absinthe_relay, "~> 1.5"},
+      {:cors_plug, "~> 2.0"}
     ]
   end
 
